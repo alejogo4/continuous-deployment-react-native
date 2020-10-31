@@ -24,6 +24,5 @@ steps:
 
 - script: |
     cd android
-    bundle install
-    fastlane build
-  displayName: 'Build android'
+    gradlew clean
+  displayName: 'Clean android'
