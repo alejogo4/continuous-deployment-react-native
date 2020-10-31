@@ -27,12 +27,8 @@ steps:
     ./gradlew clean
   displayName: 'Clean android'
   
-- task: Gradle@2
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    workingDirectory: './android'
-    tasks: 'assemblerelease'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    sonarQubeRunAnalysis: false
+- script: |
+    cd android
+    ./gradlew assemblerelease
+  displayName: 'Release android'
+  
