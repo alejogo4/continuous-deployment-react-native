@@ -22,13 +22,8 @@ steps:
     command: 'install'
     workingDir: '.'
 
-- task: Gradle@2
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    workingDirectory: './android'
-    options: 'clean'
-    tasks: 'clean'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    sonarQubeRunAnalysis: false
+- script: |
+    cd android
+    bundle install
+    fastlane build
+  displayName: 'Build android'
