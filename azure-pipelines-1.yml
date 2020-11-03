@@ -26,3 +26,9 @@ steps:
     cd android
     ./gradlew clean
   displayName: 'Clean android'
+  
+- script: |
+    cd android
+    ./gradlew assemblerelease
+  displayName: 'Release android'
+  
