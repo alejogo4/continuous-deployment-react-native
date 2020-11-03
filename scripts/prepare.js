@@ -1,22 +1,39 @@
 require('console-success');
 const fs = require('fs');
-var path = require('path');
 const {exec} = require('child_process');
 var copydir = require('copy-dir');
 const institution = process.argv[2];
 const platform = process.argv[3] || 'ios';
 const name = process.argv[4] || '';
 const identifier = process.argv[5] || '';
-//npm run prepare cafam android fastlaneapp com.fastlaneapp
+const generateIcon = process.argv[6] || '';
+//npm run prepare cafam android fastlaneapp com.fastlaneapp true
 
 const configFile = './app/config/index.js';
 
 const init = () => {
   changeConfigFolder();
-  replaceIcons();
+
+  if (generateIcon === 'true') {
+    generateIconsPlatform();
+  } else {
+    replaceIcons();
+  }
+
   if (platform === 'android') {
     replaceIdentifier();
   }
+};
+
+const generateIconsPlatform = () => {
+  exec('app-icon generate', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
 };
 
 const changeConfigFolder = () => {
