@@ -42,7 +42,7 @@ steps:
 - task: AndroidSigning@3
   inputs:
     apkFiles: 'app-release.apk'
-    apksignerKeystoreFile: 'android/keystore_pipeline.keystore'
+    apksignerKeystoreFile: 'keystore_pipeline.keystore'
     apksignerKeystorePassword: 'pipeline'
     apksignerKeystoreAlias: 'pipeline-keystore'
     apksignerKeyPassword: 'pipeline'
