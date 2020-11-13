@@ -39,7 +39,7 @@ steps:
   continueOnError: false
   displayName: "Compile apk assemblerelease"
   
-- script: mv android/app/build/outputs/apk/release/app-release-unsigned.apk app-release.apk
+- script: mv android/app/build/outputs/apk/release/app-release.apk
   displayName: Android Postprocess
   continueOnError: false
   
