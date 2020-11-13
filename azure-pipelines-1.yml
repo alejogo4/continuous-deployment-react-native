@@ -39,11 +39,8 @@ steps:
   continueOnError: false
   displayName: "Compile apk assemblerelease"
   
-- task: AndroidSigning@3
-  inputs:
-    apkFiles: 'app-release.apk'
-    apksignerKeystoreFile: 'keystore_pipeline.keystore'
-    apksignerKeystorePassword: 'pipeline'
-    apksignerKeystoreAlias: 'pipeline-keystore'
-    apksignerKeyPassword: 'pipeline'
+
+- script: ls android/app/build/outputs/apk/release
+  displayName: Android Postprocess
+  continueOnError: false
 
