@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.fastlaneappe"
+        applicationId "com.real.azuredevops"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

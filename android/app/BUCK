@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.fastlaneappe",
+    package = "com.real.azuredevops",
 )
 
 android_resource(
     name = "res",
-    package = "com.fastlaneappe",
+    package = "com.real.azuredevops",
     res = "src/main/res",
 )
 

@@ -1,0 +1,100 @@
+trigger:
+  - master
+
+pool:
+  vmImage: 'macos-latest'
+
+name: $(Environment)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '9.7.1'
+  displayName: 'Install Node'
+
+- script: npm install
+  workingDirectory: src
+  displayName: 'Install node dependencies'
+
+- task: CocoaPods@0
+  displayName: "Install CocoaPods dependencies"
+  inputs:
+    workingDirectory: src/ios
+    forceRepoUpdate: false
+
+# - task: CmdLine@2
+#   displayName: "Run Unit Tests"
+#   inputs:
+#     script: 'xcodebuild test -workspace ReactNativePipeline.xcworkspace -scheme ReactNativePipeline -destination ''platform=iOS Simulator,name=iPhone 8'' -skip-testing OperationsMobileApplicationUITests | xcpretty --report junit && exit ${PIPESTATUS[0]}'
+#     workingDirectory: '$(Build.SourcesDirectory)/src/ios'
+
+# - task: PublishTestResults@2
+#   displayName: "Publish Test Results"
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: 'junit.xml'
+#     searchFolder: '$(Build.SourcesDirectory)/src/ios/build/reports/'
+#     failTaskOnFailedTests: true
+
+- task: InstallAppleCertificate@2
+  displayName: "Install Apple Certificate"
+  inputs:
+    certSecureFile: 'dev-certificate.p12'
+    certPwd: '$(CertificatePassword)'
+
+- task: InstallAppleProvisioningProfile@1
+  displayName: "Install Apple provisioning profile"
+  inputs:
+    provisioningProfileLocation: 'secureFiles'
+    provProfileSecureFile: 'dev.mobileprovision'
+
+- task: ios-bundle-version@1
+  displayName: "Set versions"
+  inputs:
+    sourcePath: 'src/ios/ReactNativePipeline/Info.plist'
+    versionCodeOption: 'buildid'
+    versionCode: '$(Build.BuildId)'
+    printFile: true
+
+- task: Xcode@5
+  displayName: "Build Mobile Application"
+  inputs:
+    actions: 'build'
+    configuration: '$(Environment)'
+    sdk: 'iphoneos13.2'
+    xcWorkspacePath: 'src/ios/ReactNativePipeline.xcworkspace'
+    scheme: 'ReactNativePipeline'
+    packageApp: true
+    exportPath: 'output/package'
+    archivePath: 'output/archive'
+    signingOption: 'auto'
+    xcodeVersion: 'specifyPath'
+    xcodeDeveloperDir: '/Applications/Xcode_11.3.app/Contents/Developer'
+
+- task: CmdLine@2
+  displayName: "Rename build build artifact to include build number"
+  inputs:
+    script: 'mv output/package/ReactNativePipeline.ipa output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+  
+- task: PublishBuildArtifacts@1
+  displayName: "Publish Build Artifact"
+  inputs:
+    PathtoPublish: 'output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  
+- task: AppCenterDistribute@3
+  displayName: "Create a release on App Center"
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    serverEndpoint: 'app-center'
+    appSlug: 'stafford.williams/ReactNativePipeline-iOS'
+    appFile: 'output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+    symbolsDsymFiles: 'output/archive/ReactNativePipeline.xcarchive/dSYMs'
+    releaseNotesOption: 'input'
+    releaseNotesInput: |
+      $(Build.SourceVersionMessage)
+      
+      latest source: '$(Build.SourceVersion)'
+      
+      An automated release from Azure DevOps
+    destinationType: 'groups'

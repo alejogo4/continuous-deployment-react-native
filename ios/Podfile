@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'fastlaneappe' do
+target 'pipelineAzure' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'fastlaneappeTests' do
+  target 'pipelineAzureTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'fastlaneappe' do
   end
 end
 
-target 'fastlaneappe-tvOS' do
-  # Pods for fastlaneappe-tvOS
+target 'pipelineAzure-tvOS' do
+  # Pods for pipelineAzure-tvOS
 
-  target 'fastlaneappe-tvOSTests' do
+  target 'pipelineAzure-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
