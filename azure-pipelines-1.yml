@@ -44,3 +44,10 @@ steps:
   displayName: Android Postprocess
   continueOnError: false
 
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: 'android/app/build/outputs/apk/release/app-release.apk'
+    apksignerKeystoreFile: 'keystore_pipeline.keystore'
+    apksignerKeystorePassword: 'pipeline'
+    apksignerKeystoreAlias: 'pipeline-keystore'
+    apksignerKeyPassword: 'pipeline'
