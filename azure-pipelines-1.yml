@@ -56,3 +56,4 @@ steps:
   inputs:
     Contents: 'android/app/build/outputs/apk/release/app-release.apk'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
