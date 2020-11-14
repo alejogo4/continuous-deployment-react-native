@@ -45,6 +45,7 @@ steps:
   continueOnError: false
 
 - task: AndroidSigning@3
+  displayName: "Signing android apk"
   inputs:
     apkFiles: 'android/app/build/outputs/apk/release/app-release.apk'
     apksignerKeystoreFile: 'keystore_pipeline.keystore'
@@ -53,6 +54,7 @@ steps:
     apksignerKeyPassword: 'pipeline'
 
 - task: CopyFiles@2
+  displayName: "Build artifact"
   inputs:
     Contents: 'android/app/build/outputs/apk/release/app-release.apk'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
