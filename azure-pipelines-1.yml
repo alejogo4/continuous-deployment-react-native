@@ -30,6 +30,14 @@ steps:
     javaHomeOption: 'JDKVersion'
   displayName: "Clean gradlew"
   
+- task: android-manifest-version@1
+  inputs:
+    sourcePath: 'android/app/src/main/AndroidManifest.xml'
+    versionCodeOption: 'buildid'
+    versionCode: '$(Build.BuildId)'
+    versionCodeOffset: '2'
+    printFile: true
+
 - task: Gradle@2
   inputs:
     workingDirectory: 'android'
