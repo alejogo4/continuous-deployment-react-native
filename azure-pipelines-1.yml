@@ -22,6 +22,13 @@ steps:
     npm install
   displayName: 'npm install'
  
+
+- task: UpdateAndroidVersionGradle@1
+  inputs:
+    buildGradlePath: 'android/app/src/main/AndroidManifest.xml'
+    versionCode: '3'
+    versionName: '3'
+
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'android/gradlew'
