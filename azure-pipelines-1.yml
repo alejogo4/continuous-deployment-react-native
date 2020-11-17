@@ -30,6 +30,11 @@ steps:
     javaHomeOption: 'JDKVersion'
   displayName: "Clean gradlew"
   
+
+- task: ExtractVersionFromTag@1
+  inputs:
+    projectFolderPath: '$(Build.SourcesDirectory)'
+
 - task: UpdateAndroidVersionGradle@1
   inputs:
     buildGradlePath: 'android/app/build.gradle'
