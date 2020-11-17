@@ -54,8 +54,12 @@ steps:
     apksignerKeyPassword: 'pipeline'
 
 - task: CopyFiles@2
-  displayName: "Build artifact"
   inputs:
-    Contents: 'android/app/build/outputs/apk/release/app-release.apk'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    contents: '**/*.apk'
+    targetFolder: '$(build.artifactStagingDirectory)'
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(build.artifactStagingDirectory)/app/build/outputs/'
+    artifactName: 'apk-files'
+    artifactType: 'container'
