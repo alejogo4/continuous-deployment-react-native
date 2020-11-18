@@ -23,6 +23,11 @@ steps:
   displayName: 'npm install'
  
 
+- script: |
+    echo $(NUMBER_OF_COMMITS)
+    echo $(MAJOR).$(MINOR).$(PATCH)
+  displayName: 'npm install'
+
 - task: UpdateAndroidVersionGradle@1
   inputs:
     buildGradlePath: 'android/app/build.gradle'
