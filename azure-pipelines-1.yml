@@ -23,10 +23,6 @@ steps:
   displayName: 'npm install'
  
 
-- script: |
-    echo $(NUMBER_OF_COMMITS)
-    echo $(MAJOR).$(MINOR).$(PATCH)
-  displayName: 'Print vars'
 
 - task: UpdateAndroidVersionGradle@1
   inputs:
